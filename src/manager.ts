@@ -68,14 +68,12 @@ export class AffairManager {
         return this.findListName(this.organization,query);
     }
     findListName(passedArray:Array<any>, query:string){
-        let temp: Array<string> = [];
         let reg: RegExp = new RegExp(query.toLowerCase());
-        passedArray.forEach(element => {
+        return passedArray.filter(element => {
             if (reg.test(element.name.toLowerCase())) {
-                temp.push(element.name);
+                return true;
             }
-        })
-        return temp;
+        });
     }
     modifyAffair(affairName: string, title: string, time: string = undefined) {
         let index: number = this.affairs.findIndex(x => {
