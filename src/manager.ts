@@ -1,6 +1,6 @@
 //your code goes here!
 type Affaris = {
-    title: string,
+    name: string,
     zipcode: string,
     date: string,
     memebers: Array<string>
@@ -31,7 +31,7 @@ export class AffairManager {
     }
     addAffair(affairName: string, zipcode: string, date: string) {
         this.affairs.push({
-            title: affairName,
+            name: affairName,
             zipcode: zipcode,
             date: date,
             memebers: []
@@ -46,37 +46,31 @@ export class AffairManager {
     }
     addMemberToAffair(memberName: string, affairName: string) {
         let index: number = this.affairs.findIndex(x => {
-            if (x.title.toLowerCase() == affairName.toLowerCase()) return true;
+            if (x.name.toLowerCase() == affairName.toLowerCase()) return true;
         })
         if (index == -1) {
+            console.warn("Missing Affair");
             return;
         }
-        if (!this.affairs[index].memebers.includes(memberName)) this.affairs[index].memebers.push(memberName);
+        if (!this.affairs[index].memebers.includes(memberName)) {this.affairs[index].memebers.push(memberName)}
+        else{
+            console.log("Member already exists.");
+            return;
+        }
     }
     findMemberNames(query: string): string[] {
-        let temp: Array<string> = [];
-        let reg: RegExp = new RegExp(query.toLowerCase());
-        this.members.forEach(element => {
-            if (reg.test(element.name.toLowerCase())) {
-                temp.push(element.name);
-            }
-        });
-        return temp;
+        return this.findListName(this.members,query);
     }
     findAffairNames(query: string): Array<string> {
-        let temp: Array<string> = [];
-        let reg: RegExp = new RegExp(query.toLowerCase());
-        this.affairs.forEach(element => {
-            if (reg.test(element.title.toLowerCase())) {
-                temp.push(element.title);
-            }
-        })
-        return temp;
+        return this.findListName(this.affairs,query);
     }
     findOrganizationNames(query: string): Array<string> {
+        return this.findListName(this.organization,query);
+    }
+    findListName(passedArray:Array<any>, query:string){
         let temp: Array<string> = [];
         let reg: RegExp = new RegExp(query.toLowerCase());
-        this.organization.forEach(element => {
+        passedArray.forEach(element => {
             if (reg.test(element.name.toLowerCase())) {
                 temp.push(element.name);
             }
@@ -85,23 +79,28 @@ export class AffairManager {
     }
     modifyAffair(affairName: string, title: string, time: string = undefined) {
         let index: number = this.affairs.findIndex(x => {
-            if (x.title.toLowerCase() == affairName.toLowerCase()) {
+            if (x.name.toLowerCase() == affairName.toLowerCase()) {
                 return true;
             }
         })
         if (index == -1) {
+            console.warn("Missing Affair.");
             return;
         }
-        if (title) this.affairs[index].title = title;
+        if (title) this.affairs[index].name = title;
         if (time) this.affairs[index].date = time;
     }
     addAffairToOrganization(affairName: string, organizationName: string) {
         let index: number = this.organization.findIndex(x => { if (x.name.toLowerCase() == organizationName.toLowerCase()) return true })
-        if (!this.organization[index].affairs.includes(affairName)) this.organization[index].affairs.push(affairName);
+        if (!this.organization[index].affairs.includes(affairName)) {this.organization[index].affairs.push(affairName);}
+        else{
+            console.log("Affair already in Organization");
+            return;
+        }
     }
     getMembers(affairName: string): Array<string> {
         let temp: Array<string> = this.affairs.find(x => {
-            if (x.title.toLowerCase() == affairName.toLowerCase()) {
+            if (x.name.toLowerCase() == affairName.toLowerCase()) {
                 return true;
             }}).memebers.map(x => {
                 let member: Members = this.getMember(x)

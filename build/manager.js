@@ -15,7 +15,7 @@ class AffairManager {
     }
     addAffair(affairName, zipcode, date) {
         this.affairs.push({
-            title: affairName,
+            name: affairName,
             zipcode: zipcode,
             date: date,
             memebers: []
@@ -30,39 +30,34 @@ class AffairManager {
     }
     addMemberToAffair(memberName, affairName) {
         let index = this.affairs.findIndex(x => {
-            if (x.title.toLowerCase() == affairName.toLowerCase())
+            if (x.name.toLowerCase() == affairName.toLowerCase())
                 return true;
         });
         if (index == -1) {
+            console.warn("Missing Affair");
             return;
         }
-        if (!this.affairs[index].memebers.includes(memberName))
+        if (!this.affairs[index].memebers.includes(memberName)) {
             this.affairs[index].memebers.push(memberName);
+        }
+        else {
+            console.log("Member already exists.");
+            return;
+        }
     }
     findMemberNames(query) {
-        let temp = [];
-        let reg = new RegExp(query.toLowerCase());
-        this.members.forEach(element => {
-            if (reg.test(element.name.toLowerCase())) {
-                temp.push(element.name);
-            }
-        });
-        return temp;
+        return this.findListName(this.members, query);
     }
     findAffairNames(query) {
-        let temp = [];
-        let reg = new RegExp(query.toLowerCase());
-        this.affairs.forEach(element => {
-            if (reg.test(element.title.toLowerCase())) {
-                temp.push(element.title);
-            }
-        });
-        return temp;
+        return this.findListName(this.affairs, query);
     }
     findOrganizationNames(query) {
+        return this.findListName(this.organization, query);
+    }
+    findListName(passedArray, query) {
         let temp = [];
         let reg = new RegExp(query.toLowerCase());
-        this.organization.forEach(element => {
+        passedArray.forEach(element => {
             if (reg.test(element.name.toLowerCase())) {
                 temp.push(element.name);
             }
@@ -71,27 +66,33 @@ class AffairManager {
     }
     modifyAffair(affairName, title, time = undefined) {
         let index = this.affairs.findIndex(x => {
-            if (x.title.toLowerCase() == affairName.toLowerCase()) {
+            if (x.name.toLowerCase() == affairName.toLowerCase()) {
                 return true;
             }
         });
         if (index == -1) {
+            console.warn("Missing Affair.");
             return;
         }
         if (title)
-            this.affairs[index].title = title;
+            this.affairs[index].name = title;
         if (time)
             this.affairs[index].date = time;
     }
     addAffairToOrganization(affairName, organizationName) {
         let index = this.organization.findIndex(x => { if (x.name.toLowerCase() == organizationName.toLowerCase())
             return true; });
-        if (!this.organization[index].affairs.includes(affairName))
+        if (!this.organization[index].affairs.includes(affairName)) {
             this.organization[index].affairs.push(affairName);
+        }
+        else {
+            console.log("Affair already in Organization");
+            return;
+        }
     }
     getMembers(affairName) {
         let temp = this.affairs.find(x => {
-            if (x.title.toLowerCase() == affairName.toLowerCase()) {
+            if (x.name.toLowerCase() == affairName.toLowerCase()) {
                 return true;
             }
         }).memebers.map(x => {
