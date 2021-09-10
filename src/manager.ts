@@ -52,22 +52,22 @@ export class AffairManager {
             console.warn("Missing Affair");
             return;
         }
-        if (!this.affairs[index].memebers.includes(memberName)) {this.affairs[index].memebers.push(memberName)}
-        else{
+        if (!this.affairs[index].memebers.includes(memberName)) { this.affairs[index].memebers.push(memberName) }
+        else {
             console.log("Member already exists.");
             return;
         }
     }
     findMemberNames(query: string): string[] {
-        return this.findListName(this.members,query);
+        return this.findListName(this.members, query);
     }
     findAffairNames(query: string): Array<string> {
-        return this.findListName(this.affairs,query);
+        return this.findListName(this.affairs, query);
     }
     findOrganizationNames(query: string): Array<string> {
-        return this.findListName(this.organization,query);
+        return this.findListName(this.organization, query);
     }
-    findListName(passedArray:Array<any>, query:string){
+    findListName(passedArray: Array<any>, query: string) {
         let reg: RegExp = new RegExp(query.toLowerCase());
         return passedArray.filter(element => {
             if (reg.test(element.name.toLowerCase())) {
@@ -90,8 +90,8 @@ export class AffairManager {
     }
     addAffairToOrganization(affairName: string, organizationName: string) {
         let index: number = this.organization.findIndex(x => { if (x.name.toLowerCase() == organizationName.toLowerCase()) return true })
-        if (!this.organization[index].affairs.includes(affairName)) {this.organization[index].affairs.push(affairName);}
-        else{
+        if (!this.organization[index].affairs.includes(affairName)) { this.organization[index].affairs.push(affairName); }
+        else {
             console.log("Affair already in Organization");
             return;
         }
@@ -100,10 +100,11 @@ export class AffairManager {
         let temp: Array<string> = this.affairs.find(x => {
             if (x.name.toLowerCase() == affairName.toLowerCase()) {
                 return true;
-            }}).memebers.map(x => {
-                let member: Members = this.getMember(x)
-                return member.name + "\t" + member.email;
-            })
+            }
+        }).memebers.map(x => {
+            let member: Members = this.getMember(x)
+            return member.name + "\t" + member.email;
+        })
 
         return temp;
     }
