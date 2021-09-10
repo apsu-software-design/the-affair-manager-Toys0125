@@ -1,4 +1,4 @@
-//your code goes here!
+//Marcus Stange CSCI 4902 Assignment 2
 type Affaris = {
     name: string,
     zipcode: string,
