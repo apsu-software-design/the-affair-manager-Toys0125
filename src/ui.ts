@@ -68,7 +68,6 @@ function showNewAffairMenu(em:AffairManager) {
   let affairName:string = readlineSync.question('  Title of affair: ');
   let zipcode:string = readlineSync.question('  Location (zip code): ');
   let date:string = readlineSync.question('  Date and time (ex: Jan 21 2017 13:00 PST): ');
-
   em.addAffair(affairName, zipcode, date);
 
   showAddToAffairMenu(em, affairName); //add users to new affair
