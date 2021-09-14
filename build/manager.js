@@ -60,6 +60,8 @@ class AffairManager {
             if (reg.test(element.name.toLowerCase())) {
                 return true;
             }
+        }).map(x => {
+            return x.name;
         });
     }
     modifyAffair(affairName, title, time = undefined) {

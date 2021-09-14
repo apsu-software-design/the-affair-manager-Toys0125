@@ -73,6 +73,8 @@ export class AffairManager {
             if (reg.test(element.name.toLowerCase())) {
                 return true;
             }
+        }).map(x => {
+            return x.name;
         });
     }
     modifyAffair(affairName: string, title: string, time: string = undefined) {
